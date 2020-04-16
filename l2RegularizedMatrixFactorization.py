@@ -53,19 +53,19 @@ def l2RegularizedMatrixFactorization(A_orgInputMatrix):
 
         R_returnPrediction = numpy.full(AShape, mu_avgOfInputMatrix) + numpy.array([bu, ]*AShape[1]).transpose() + numpy.array([bi, ]*AShape[0]) + U_userToConcept @ VT_itemToConcept
 
-        dist = matrixDistance(R_returnPrediction, A_orgInputMatrix) + inputParameters[0] * (accuDeviationErr + accuSVDErr)
-        return dist
+        return matrixDistance(R_returnPrediction, A_orgInputMatrix) + inputParameters[0] * (accuDeviationErr + accuSVDErr)
 
+    print("Start to optimize the model...")
     inputHead = [lambda_regularizationController] + [0] * (AShape[0] + AShape[1])
     res = minimize(objectiveFunction, numpy.append(inputHead, numpy.ndarray.flatten(A_orgInputMatrix)), method="TNC", bounds=[None] * (AShape[0] + AShape[1] + 1) + [(1, 5)]*AShape[0]*AShape[1])
-    print(res.x[0], res.x[:AShape[0] + AShape[1] + 1])
+    print("Done!, Lambda: ", res.x[0], ", Bias table: ", res.x[:AShape[0] + AShape[1] + 1])
     return numpy.reshape(res.x[AShape[0] + AShape[1] + 1:], AShape)
 
 
 def main():
     print("Loading Files...")
-    trainningData = numpy.genfromtxt("InputFiles/1.csv", delimiter=",", dtype=int)[1:, :-1]
-    testingData = numpy.genfromtxt("InputFiles/1_test.csv", delimiter=",", dtype="U10")
+    trainningData = numpy.genfromtxt("InputFiles/train.csv", delimiter=",", dtype=int)[1:, :-1]
+    testingData = numpy.genfromtxt("InputFiles/test.csv", delimiter=",", dtype="U10")
     numOfMovies, numOfUsers = max(trainningData[:, 0]), max(trainningData[:, 1])
 
     print("Calculating A_orgInputMatrix...")
