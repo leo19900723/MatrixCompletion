@@ -36,42 +36,30 @@ def matrixDistance(matrixA, matrixB):
 
 
 def l2RegularizedMatrixFactorization(A_orgInputMatrix):
+    print(A_orgInputMatrix)
     AShape = A_orgInputMatrix.shape
+    mu_avgOfInputMatrix = numpy.average(numpy.nonzero(A_orgInputMatrix))
     lambda_regularizationController = 0
 
-    def objectiveFunction(inputMatrix):
-        inputMatrix = numpy.reshape(inputMatrix, AShape)
-
-        mu_avgOfInputMatrix = numpy.average(inputMatrix)
-        accuDeviationErr = 0
-        accuSVDErr = 0
+    def objectiveFunction(inputParameters):
+        inputMatrix = numpy.reshape(inputParameters[AShape[0] + AShape[1] + 1:], AShape)
 
         U_userToConcept, S_singularValueMatrix, VT_itemToConcept = numpy.linalg.svd(inputMatrix, full_matrices=False)
-        V_itemToConcept = VT_itemToConcept.transpose()
 
-        R_returnPrediction = numpy.empty((len(inputMatrix), len(inputMatrix[0])))
+        bu = numpy.sum(A_orgInputMatrix - U_userToConcept @ VT_itemToConcept - numpy.array([inputParameters[AShape[0] + 1: AShape[0] + AShape[1] + 1], ] * AShape[0]), axis=1)
+        bi = numpy.sum(A_orgInputMatrix - U_userToConcept @ VT_itemToConcept - numpy.array([inputParameters[1: AShape[0] + 1], ] * AShape[1]).transpose(), axis=0)
+        accuDeviationErr = numpy.sum(numpy.power(bu, 2)) + numpy.sum(numpy.power(bi, 2))
+        accuSVDErr = numpy.sum(numpy.power(numpy.linalg.norm(U_userToConcept, axis=0), 2)) + numpy.sum(numpy.power(numpy.linalg.norm(VT_itemToConcept, axis=0), 2))
 
-        for userIndex in range(len(R_returnPrediction)):
-            for itemIndex in range(len(R_returnPrediction[userIndex])):
-                bu = numpy.std(inputMatrix[userIndex])
-                bi = numpy.std(inputMatrix[:, itemIndex])
-                R_returnPrediction[userIndex, itemIndex] = mu_avgOfInputMatrix + bu + bi + V_itemToConcept[itemIndex].dot(U_userToConcept[userIndex])
-                accuDeviationErr += bu ** 2 + bi ** 2
+        R_returnPrediction = numpy.full(AShape, mu_avgOfInputMatrix) + numpy.array([bu, ]*AShape[1]).transpose() + numpy.array([bi, ]*AShape[0]) + U_userToConcept @ VT_itemToConcept
 
-        for user_i in range(len(U_userToConcept)):
-            for user_j in range(user_i + 1, len(U_userToConcept)):
-                accuSVDErr += distance.euclidean(U_userToConcept[user_i], U_userToConcept[user_j])
+        dist = matrixDistance(R_returnPrediction, A_orgInputMatrix) + inputParameters[0] * (accuDeviationErr + accuSVDErr)
+        return dist
 
-        for item_i in range(len(VT_itemToConcept)):
-            for item_j in range(item_i + 1, len(VT_itemToConcept[item_i])):
-                accuSVDErr += distance.euclidean(VT_itemToConcept[item_i], VT_itemToConcept[item_j])
-
-        return matrixDistance(R_returnPrediction, A_orgInputMatrix) + lambda_regularizationController * (accuDeviationErr + accuSVDErr)
-
-    print(objectiveFunction(A_orgInputMatrix))
-    print("++++++++++++++++++++++++++++++++++++++++++++++++")
-    res = minimize(objectiveFunction, A_orgInputMatrix, method="SLSQP", bounds=[(0, 6)]*AShape[0]*AShape[1])
-    return numpy.reshape(res.x, AShape)
+    inputHead = [lambda_regularizationController] + [0] * (AShape[0] + AShape[1])
+    res = minimize(objectiveFunction, numpy.append(inputHead, numpy.ndarray.flatten(A_orgInputMatrix)), method="TNC", bounds=[None] * (AShape[0] + AShape[1] + 1) + [(1, 5)]*AShape[0]*AShape[1])
+    print(res.x[0], res.x[:AShape[0] + AShape[1] + 1])
+    return numpy.reshape(res.x[AShape[0] + AShape[1] + 1:], AShape)
 
 
 def main():
@@ -90,12 +78,10 @@ def main():
     R_returnPrediction = l2RegularizedMatrixFactorization(A_orgInputMatrix)
     print(R_returnPrediction)
 
-    '''
-    with open("OutputFiles/ans.csv", "w", encoding="utf-8") as outputFile:
+    with open("OutputFiles/Yi-Chen Liu_preds_matrix.txt", "w", encoding="utf-8") as outputFile:
         for rowIndex in range(len(testingData)):
             outputFile.write(testingData[rowIndex, 0] + "," + testingData[rowIndex, 1] + "," + str(R_returnPrediction[int(testingData[rowIndex, 1]) - 1, int(testingData[rowIndex, 0]) - 1]) + "," + testingData[rowIndex, 3] + "\n")
         outputFile.close()
-    '''
 
     return
 

@@ -101,7 +101,7 @@ def main():
 
     R_returnPrediction = spectralClustering(A_orgInputMatrix, 2)
 
-    with open("OutputFiles/ans.csv", "w", encoding="utf-8") as outputFile:
+    with open("OutputFiles/Yi-Chen Liu_preds_clustering.txt", "w", encoding="utf-8") as outputFile:
         for rowIndex in range(len(testingData)):
             outputFile.write(testingData[rowIndex, 0] + "," + testingData[rowIndex, 1] + "," + str(R_returnPrediction[int(testingData[rowIndex, 1]) - 1, int(testingData[rowIndex, 0]) - 1]) + "," + testingData[rowIndex, 3] + "\n")
         outputFile.close()
