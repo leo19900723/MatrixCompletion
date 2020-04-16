@@ -7,17 +7,6 @@ from scipy.spatial import distance
 import matplotlib.pyplot as plt
 
 
-# Print iterations progress
-def printProgressBar(iteration, total, prefix="", suffix="", decimals=1, length=100, fill="█", printEnd="\r"):
-    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
-    filledLength = int(length * iteration // total)
-    bar = fill * filledLength + "-" * (length - filledLength)
-    print("\r%s |%s| %s%% %s" % (prefix, bar, percent, suffix), end=printEnd)
-    # Print New Line on Complete
-    if iteration == total:
-        print()
-
-
 def euclideanDistanceWithoutZero(vector1, vector2, power=1):
     ans = 0
     for index in range(len(vector1)):
@@ -39,6 +28,7 @@ def averageWithoutZero(vector):
 
 
 def spectralClustering(A_orgInputMatrix, K):
+    print("Start to proceed Spectral Clustering...")
     sigma_parameter = 1
     clustersCtoU = collections.defaultdict(lambda: set())
     clustersUtoC = {}
@@ -47,8 +37,6 @@ def spectralClustering(A_orgInputMatrix, K):
     print("Calculating W_affinityMatrix...")
     W_affinityMatrix = numpy.ones((len(A_orgInputMatrix), len(A_orgInputMatrix)))
     for user_i in range(len(A_orgInputMatrix)):
-        if not (user_i % (len(A_orgInputMatrix) // 20)) or user_i + 1 == len(A_orgInputMatrix):
-            printProgressBar(user_i + 1, len(A_orgInputMatrix), prefix="\tProgress:", suffix="Complete", length=50)
         for user_j in range(user_i + 1, len(A_orgInputMatrix)):
             W_affinityMatrix[user_i, user_j] = numpy.exp(-1 * euclideanDistanceWithoutZero(A_orgInputMatrix[user_i, :], A_orgInputMatrix[user_j, :], 2) ** 2 / (sigma_parameter ** 2))
             W_affinityMatrix[user_j, user_i] = W_affinityMatrix[user_i, user_j]
@@ -82,32 +70,24 @@ def spectralClustering(A_orgInputMatrix, K):
             if R_returnPrediction[userIndex, itemIndex] == 0:
                 R_returnPrediction[userIndex, itemIndex] = averageWithoutZero(R_returnPrediction[list(clustersCtoU[clustersUtoC[userIndex]]), itemIndex])
 
-    print("Done")
+    print("Done!")
     return R_returnPrediction
 
 
-def main():
+def _unitTest():
     print("Loading Files...")
-    trainningData = numpy.genfromtxt("InputFiles/train.csv", delimiter=",", dtype=int)[1:, :-1]
-    testingData = numpy.genfromtxt("InputFiles/test.csv", delimiter=",", dtype="U10")
+    trainningData = numpy.genfromtxt("InputFiles/1.csv", delimiter=",", dtype=int)[1:, :-1]
     numOfMovies, numOfUsers = max(trainningData[:, 0]), max(trainningData[:, 1])
 
     print("Calculating A_orgInputMatrix...")
     A_orgInputMatrix = numpy.zeros((numOfUsers, numOfMovies))
     for userIndex in range(len(trainningData)):
-        if not (userIndex % (len(trainningData) // 20)) or userIndex + 1 == len(trainningData):
-            printProgressBar(userIndex + 1, len(trainningData), prefix="\tProgress:", suffix="Complete", length=50)
         A_orgInputMatrix[trainningData[userIndex, 1] - 1, trainningData[userIndex, 0] - 1] = trainningData[userIndex, 2]
 
-    R_returnPrediction = spectralClustering(A_orgInputMatrix, 2)
-
-    with open("OutputFiles/Yi-Chen Liu_preds_clustering.txt", "w", encoding="utf-8") as outputFile:
-        for rowIndex in range(len(testingData)):
-            outputFile.write(testingData[rowIndex, 0] + "," + testingData[rowIndex, 1] + "," + str(R_returnPrediction[int(testingData[rowIndex, 1]) - 1, int(testingData[rowIndex, 0]) - 1]) + "," + testingData[rowIndex, 3] + "\n")
-        outputFile.close()
+    print(spectralClustering(A_orgInputMatrix, 2))
 
     return
 
 
 if __name__ == "__main__":
-    main()
+    _unitTest()
