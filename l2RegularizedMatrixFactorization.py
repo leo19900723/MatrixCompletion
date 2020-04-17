@@ -28,6 +28,7 @@ def l2RegularizedMatrixFactorization(A_orgInputMatrix):
     AShape = A_orgInputMatrix.shape
     mu_avgOfInputMatrix = numpy.average(numpy.nonzero(A_orgInputMatrix))
     lambda_regularizationController = 0
+    attempData = [0, 0]
 
     def objectiveFunction(inputParameters):
         inputMatrix = numpy.reshape(inputParameters[AShape[0] + AShape[1] + 1:], AShape)
@@ -41,7 +42,10 @@ def l2RegularizedMatrixFactorization(A_orgInputMatrix):
 
         R_returnPrediction = numpy.full(AShape, mu_avgOfInputMatrix) + numpy.array([bu, ]*AShape[1]).transpose() + numpy.array([bi, ]*AShape[0]) + U_userToConcept @ VT_itemToConcept
 
-        return matrixDistance(R_returnPrediction, A_orgInputMatrix) + inputParameters[0] * (accuDeviationErr + accuSVDErr)
+        attempData[0] += 1
+        attempData[1] = matrixDistance(R_returnPrediction, A_orgInputMatrix) + inputParameters[0] * (accuDeviationErr + accuSVDErr)
+        print("\rAttempt: ", attempData[0], "Loss: ", attempData[1], end="\r")
+        return attempData[1]
 
     print("Start to optimize the model...")
     inputHead = [lambda_regularizationController] + [0] * (AShape[0] + AShape[1])

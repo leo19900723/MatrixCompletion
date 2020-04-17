@@ -41,17 +41,21 @@ def main():
 
     def outputResult(fileName, resultMatrix):
         with open("OutputFiles/" + fileName, "w", encoding="utf-8") as outputFile:
+            mu = str(int(round(numpy.average(resultMatrix))))
             for rowIndex in range(len(testingData)):
-                outputFile.write(testingData[rowIndex, 0] + "," + testingData[rowIndex, 1] + "," + str(resultMatrix[userDict[int(testingData[rowIndex, 1])], itemDict[int(testingData[rowIndex, 0])]]) + "," + testingData[rowIndex, 3] + "\n")
+                if int(testingData[rowIndex, 1]) in userDict and int(testingData[rowIndex, 0]) in itemDict:
+                    outputFile.write(testingData[rowIndex, 0] + "," + testingData[rowIndex, 1] + "," + str(int(round(resultMatrix[userDict[int(testingData[rowIndex, 1])], itemDict[int(testingData[rowIndex, 0])]]))) + "," + testingData[rowIndex, 3] + "\n")
+                else:
+                    outputFile.write(testingData[rowIndex, 0] + "," + testingData[rowIndex, 1] + "," + mu + "," + testingData[rowIndex, 3] + "\n")
             outputFile.close()
         return
 
     methodChoice = input("Choose your method:\n1. Spectral Clustering\n2. L2-Regularized Matrix Factorization\n3. All of above\n")
-    if methodChoice == 1 or 3:
+    if methodChoice in {"1", "3"}:
         R_clustering = spectralClustering(A_orgInputMatrix, 2)
         outputResult("Yi-Chen Liu_preds_clustering.txt", R_clustering)
 
-    if methodChoice == 2 or 3:
+    if methodChoice in {"2", "3"}:
         R_matrix = l2RegularizedMatrixFactorization(A_orgInputMatrix)
         outputResult("Yi-Chen Liu_preds_matrix.txt", R_matrix)
 

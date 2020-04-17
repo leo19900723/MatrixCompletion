@@ -1,10 +1,11 @@
 import collections
+import cupy
 import math
 import numpy
 from scipy.sparse import csgraph
 from scipy.cluster.vq import vq, kmeans, whiten
 from scipy.spatial import distance
-import matplotlib.pyplot as plt
+from Main import *
 
 
 def euclideanDistanceWithoutZero(vector1, vector2, power=1):
@@ -32,21 +33,22 @@ def spectralClustering(A_orgInputMatrix, K):
     sigma_parameter = 1
     clustersCtoU = collections.defaultdict(lambda: set())
     clustersUtoC = {}
-    R_returnPrediction = numpy.copy(A_orgInputMatrix)
+    R_returnPrediction = cupy.copy(A_orgInputMatrix)
 
     print("Calculating W_affinityMatrix...")
-    W_affinityMatrix = numpy.ones((len(A_orgInputMatrix), len(A_orgInputMatrix)))
+    W_affinityMatrix = cupy.ones((len(A_orgInputMatrix), len(A_orgInputMatrix)))
     for user_i in range(len(A_orgInputMatrix)):
+        printProgressBar(user_i + 1, len(A_orgInputMatrix), prefix="\tProgress:", suffix="Complete", length=50)
         for user_j in range(user_i + 1, len(A_orgInputMatrix)):
-            W_affinityMatrix[user_i, user_j] = numpy.exp(-1 * euclideanDistanceWithoutZero(A_orgInputMatrix[user_i, :], A_orgInputMatrix[user_j, :], 2) ** 2 / (sigma_parameter ** 2))
+            W_affinityMatrix[user_i, user_j] = cupy.exp(-1 * euclideanDistanceWithoutZero(A_orgInputMatrix[user_i, :], A_orgInputMatrix[user_j, :], 2) ** 2 / (sigma_parameter ** 2))
             W_affinityMatrix[user_j, user_i] = W_affinityMatrix[user_i, user_j]
 
     print("Calculating L_laplacianMatrix...")
-    L_laplacianMatrix = csgraph.laplacian(W_affinityMatrix)
+    L_laplacianMatrix = csgraph.laplacian(cupy.asnumpy(W_affinityMatrix))
 
     print("Calculating L_eigenvalues & L_eigenvectors...")
     L_eigenvalues, L_eigenvectors = numpy.linalg.eig(L_laplacianMatrix)
-    L_eigenvaluesOrderedIndex = numpy.argsort(L_eigenvalues)
+    L_eigenvaluesOrderedIndex = cupy.argsort(L_eigenvalues)
 
     print("\tEigenvalues: ", sorted(L_eigenvalues))
     centroids, distortion = kmeans(L_eigenvectors[:, L_eigenvaluesOrderedIndex[:K]], K)
@@ -80,7 +82,7 @@ def _unitTest():
     numOfMovies, numOfUsers = max(trainningData[:, 0]), max(trainningData[:, 1])
 
     print("Calculating A_orgInputMatrix...")
-    A_orgInputMatrix = numpy.zeros((numOfUsers, numOfMovies))
+    A_orgInputMatrix = cupy.zeros((numOfUsers, numOfMovies))
     for userIndex in range(len(trainningData)):
         A_orgInputMatrix[trainningData[userIndex, 1] - 1, trainningData[userIndex, 0] - 1] = trainningData[userIndex, 2]
 
