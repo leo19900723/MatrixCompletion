@@ -1,5 +1,4 @@
 import collections
-import cupy
 import math
 import numpy
 from scipy.sparse import csgraph
@@ -8,47 +7,32 @@ from scipy.spatial import distance
 from Tools import printProgressBar
 
 
-def euclideanDistanceWithoutZero(vector1, vector2, power=1):
-    ans = 0
-    for index in range(len(vector1)):
-        if vector1[index] and vector2[index]:
-            ans += (vector1[index] - vector2[index]) ** 2
-
-    return math.sqrt(ans) ** power
-
-
-def averageWithoutZero(vector):
-    ans = 0
-    length = 0
-    for item in vector:
-        if item:
-            ans += item
-            length += 1
-
-    return (ans / length) if length else math.inf
-
-
 def spectralClustering(A_orgInputMatrix, K):
-    print("Start to proceed Spectral Clustering...")
     sigma_parameter = 1
+    print("Start to proceed Spectral Clustering...")
+    AShape = A_orgInputMatrix.shape
+
     clustersCtoU = collections.defaultdict(lambda: set())
     clustersUtoC = {}
-    R_returnPrediction = cupy.copy(A_orgInputMatrix)
+
+    A_maskedOrgInputMatrix = numpy.ma.masked_array(A_orgInputMatrix, numpy.isnan(A_orgInputMatrix))
+    mu_avgOfInputMatrix = numpy.mean(A_maskedOrgInputMatrix)
+    R_learningInput = A_maskedOrgInputMatrix.filled(mu_avgOfInputMatrix)
 
     print("Calculating W_affinityMatrix...")
-    W_affinityMatrix = cupy.ones((len(A_orgInputMatrix), len(A_orgInputMatrix)))
-    for user_i in range(len(A_orgInputMatrix)):
-        printProgressBar(user_i + 1, len(A_orgInputMatrix), prefix="\tProgress:", suffix="Complete", length=50)
-        for user_j in range(user_i + 1, len(A_orgInputMatrix)):
-            W_affinityMatrix[user_i, user_j] = cupy.exp(-1 * euclideanDistanceWithoutZero(A_orgInputMatrix[user_i, :], A_orgInputMatrix[user_j, :], 2) ** 2 / (sigma_parameter ** 2))
+    W_affinityMatrix = numpy.ones((AShape[0], AShape[0]))
+    for user_i in range(AShape[0]):
+        printProgressBar(user_i + 1, AShape[0], prefix="\tProgress:", suffix="Complete", length=50)
+        for user_j in range(user_i + 1, AShape[0]):
+            W_affinityMatrix[user_i, user_j] = math.exp(-1 * distance.euclidean(R_learningInput[user_i, :], R_learningInput[user_j, :]) ** 2 / (sigma_parameter ** 2))
             W_affinityMatrix[user_j, user_i] = W_affinityMatrix[user_i, user_j]
 
     print("Calculating L_laplacianMatrix...")
-    L_laplacianMatrix = csgraph.laplacian(cupy.asnumpy(W_affinityMatrix))
+    L_laplacianMatrix = csgraph.laplacian(W_affinityMatrix)
 
     print("Calculating L_eigenvalues & L_eigenvectors...")
     L_eigenvalues, L_eigenvectors = numpy.linalg.eig(L_laplacianMatrix)
-    L_eigenvaluesOrderedIndex = cupy.argsort(L_eigenvalues)
+    L_eigenvaluesOrderedIndex = numpy.argsort(L_eigenvalues)
 
     print("\tEigenvalues: ", sorted(L_eigenvalues))
     centroids, distortion = kmeans(L_eigenvectors[:, L_eigenvaluesOrderedIndex[:K]], K)
@@ -65,29 +49,54 @@ def spectralClustering(A_orgInputMatrix, K):
         clustersUtoC[userIndex] = assignedCluster[0]
 
     print("\tAssigned Clusters: ", dict(clustersCtoU))
-
-    print("Calculating R_returnPrediction...")
-    for userIndex in range(len(R_returnPrediction)):
-        for itemIndex in range(len(R_returnPrediction[userIndex])):
-            if R_returnPrediction[userIndex, itemIndex] == 0:
-                R_returnPrediction[userIndex, itemIndex] = averageWithoutZero(R_returnPrediction[list(clustersCtoU[clustersUtoC[userIndex]]), itemIndex])
-
-    print("Done!")
-    return R_returnPrediction
+    return clustersCtoU, clustersUtoC, int(round(mu_avgOfInputMatrix))
 
 
 def _unitTest():
     print("Loading Files...")
     trainningData = numpy.genfromtxt("InputFiles/1.csv", delimiter=",", dtype=int)[1:, :-1]
-    numOfMovies, numOfUsers = max(trainningData[:, 0]), max(trainningData[:, 1])
+    testingData = numpy.genfromtxt("InputFiles/1_test.csv", delimiter=",", dtype="U10")
+    A_orgInputHash = collections.defaultdict(lambda: {})
+    clusterCtoI_Mu = collections.defaultdict(lambda: {})
+    userDict, itemDict = {}, {}
 
-    print("Calculating A_orgInputMatrix...")
-    A_orgInputMatrix = cupy.zeros((numOfUsers, numOfMovies))
-    for userIndex in range(len(trainningData)):
-        A_orgInputMatrix[trainningData[userIndex, 1] - 1, trainningData[userIndex, 0] - 1] = trainningData[userIndex, 2]
+    print("Loading the input file to A_orgInputHash (users * items)...")
+    for rowIndex in range(len(trainningData)):
+        printProgressBar(rowIndex + 1, len(trainningData), delimiter=5, prefix="\tProgress:", suffix="Complete", length=50)
+        A_orgInputHash[trainningData[rowIndex, 1]][trainningData[rowIndex, 0]] = trainningData[rowIndex, 2]
+        if trainningData[rowIndex, 0] not in itemDict:
+            itemDict[trainningData[rowIndex, 0]] = len(itemDict)
+        if trainningData[rowIndex, 1] not in userDict:
+            userDict[trainningData[rowIndex, 1]] = len(userDict)
 
-    print(spectralClustering(A_orgInputMatrix, 2))
+    print("Convert A_orgInputHash to A_orgInputMatrix...")
+    A_orgInputMatrix = numpy.full((len(userDict), len(itemDict)), numpy.nan)
+    for progressIndex, user in enumerate(A_orgInputHash.keys()):
+        printProgressBar(progressIndex + 1, len(A_orgInputHash), delimiter=5, prefix="\tProgress:", suffix="Complete", length=50)
+        for item in A_orgInputHash[user].keys():
+            A_orgInputMatrix[userDict[user], itemDict[item]] = A_orgInputHash[user][item]
 
+    print("\n#Users:", len(userDict), "#Items: ", len(itemDict))
+    del A_orgInputHash
+
+    clusterCtoU, clusterUtoC, mu_avgOfInputMatrix = spectralClustering(A_orgInputMatrix, 2)
+
+    print("Writing test result...")
+    with open("OutputFiles/Yi-Chen Liu_preds_clustering.txt", "w", encoding="utf-8") as outputFile:
+        for rowIndex in range(len(testingData)):
+            printProgressBar(rowIndex + 1, len(testingData), delimiter=5, prefix="\tProgress:", suffix="Complete", length=50)
+            if int(testingData[rowIndex, 1]) in userDict and int(testingData[rowIndex, 0]) in itemDict:
+                if not numpy.isnan(A_orgInputMatrix[userDict[int(testingData[rowIndex, 1])], itemDict[int(testingData[rowIndex, 0])]]):
+                    predictRating = int(A_orgInputMatrix[userDict[int(testingData[rowIndex, 1])], itemDict[int(testingData[rowIndex, 0])]])
+                elif clusterUtoC[int(testingData[rowIndex, 1])] in clusterCtoI_Mu and int(testingData[rowIndex, 0]) in clusterCtoI_Mu[clusterUtoC[int(testingData[rowIndex, 1])]]:
+                    predictRating = clusterCtoI_Mu[clusterUtoC[userDict[int(testingData[rowIndex, 1])]]][itemDict[int(testingData[rowIndex, 0])]]
+                else:
+                    predictRating = int(round(numpy.nanmean(A_orgInputMatrix[numpy.array(list(clusterCtoU[clusterUtoC[userDict[int(testingData[rowIndex, 1])]]])), itemDict[int(testingData[rowIndex, 0])]])))
+                    clusterCtoI_Mu[clusterUtoC[userDict[int(testingData[rowIndex, 1])]]][itemDict[int(testingData[rowIndex, 0])]] = predictRating
+                outputFile.write(testingData[rowIndex, 0] + "," + testingData[rowIndex, 1] + "," + str(predictRating) + "," + testingData[rowIndex, 3] + "\n")
+            else:
+                outputFile.write(testingData[rowIndex, 0] + "," + testingData[rowIndex, 1] + "," + str(mu_avgOfInputMatrix)+ "," + testingData[rowIndex, 3] + "\n")
+        outputFile.close()
     return
 
 

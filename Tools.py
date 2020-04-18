@@ -11,8 +11,8 @@ def printProgressBar(iteration, total, delimiter=None, prefix="", suffix="", dec
 
 def main():
     print("Loading Files...")
-    trainningData = numpy.genfromtxt("InputFiles/train.csv", delimiter=",", dtype=int)[1:, :-1]
-    testingData = numpy.genfromtxt("InputFiles/test.csv", delimiter=",", dtype="U10")
+    trainningData = numpy.genfromtxt("InputFiles/1.csv", delimiter=",", dtype=int)[1:, :-1]
+    testingData = numpy.genfromtxt("InputFiles/1_test.csv", delimiter=",", dtype="U10")
     A_orgInputHash = collections.defaultdict(lambda: {})
     userDict, itemDict = {}, {}
 
@@ -49,11 +49,7 @@ def main():
     methodChoice = input("Choose your method:\n1. Spectral Clustering\n2. L2-Regularized Matrix Factorization\n3. All of above\n")
     if methodChoice in {"1", "3"}:
         R_clustering = spectralClustering(A_orgInputMatrix, 2)
-        outputResult("Yi-Chen Liu_preds_clustering.txt", R_clustering)
-
-    if methodChoice in {"2", "3"}:
-        R_matrix = l2RegularizedMatrixFactorization(A_orgInputMatrix)
-        outputResult("Yi-Chen Liu_preds_matrix.txt", R_matrix)
+        outputResult("Yi-Chen Liu_preds_clusteringOrg.txt", R_clustering)
 
     return
 

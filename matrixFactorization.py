@@ -36,7 +36,6 @@ def matrixFactorization(A_orgInputMatrix):
         VT_itemToConcept = (VT_itemToConcept.T + gamma_biasModificationController * (err * U_userToConcept - lambda_regularizationController * VT_itemToConcept.T)).T
 
         print("Epoch:", round, "\tErr:", err)
-        printProgressBar(round + 1, epoch, prefix="\tProgress:", suffix="Complete", length=50)
 
     R = numpy.clip(numpy.round(R_returnInputMatrix[:AShape[0], :AShape[1]]), 1, 5)
     print("A:", A_orgInputMatrix[:AShape[0], :AShape[1]])
@@ -52,23 +51,23 @@ def _unitTest():
     A_orgInputHash = collections.defaultdict(lambda: {})
     userDict, itemDict = {}, {}
 
-    print("Loading the input file to A_orgInputHash (items * users)...")
+    print("Loading the input file to A_orgInputHash (users * items)...")
     for rowIndex in range(len(trainningData)):
         printProgressBar(rowIndex + 1, len(trainningData), delimiter=5, prefix="\tProgress:", suffix="Complete", length=50)
-        A_orgInputHash[trainningData[rowIndex, 0]][trainningData[rowIndex, 1]] = trainningData[rowIndex, 2]
+        A_orgInputHash[trainningData[rowIndex, 1]][trainningData[rowIndex, 0]] = trainningData[rowIndex, 2]
         if trainningData[rowIndex, 0] not in itemDict:
             itemDict[trainningData[rowIndex, 0]] = len(itemDict)
         if trainningData[rowIndex, 1] not in userDict:
             userDict[trainningData[rowIndex, 1]] = len(userDict)
 
     print("Convert A_orgInputHash to A_orgInputMatrix...")
-    A_orgInputMatrix = numpy.full((len(itemDict), len(userDict)), numpy.nan)
-    for progressIndex, item in enumerate(A_orgInputHash.keys()):
+    A_orgInputMatrix = numpy.full((len(userDict), len(itemDict)), numpy.nan)
+    for progressIndex, user in enumerate(A_orgInputHash.keys()):
         printProgressBar(progressIndex + 1, len(A_orgInputHash), delimiter=5, prefix="\tProgress:", suffix="Complete", length=50)
-        for user in A_orgInputHash[item].keys():
-            A_orgInputMatrix[itemDict[item], userDict[user]] = A_orgInputHash[item][user]
+        for item in A_orgInputHash[user].keys():
+            A_orgInputMatrix[userDict[user], itemDict[item]] = A_orgInputHash[user][item]
 
-    print("\n#Users:", A_orgInputMatrix.shape[1], "#Items: ", A_orgInputMatrix.shape[0])
+    print("\n#Users:", len(userDict), "#Items: ", len(itemDict))
     del A_orgInputHash
 
     print(matrixFactorization(A_orgInputMatrix))
