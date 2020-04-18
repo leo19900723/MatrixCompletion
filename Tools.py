@@ -1,9 +1,5 @@
-from UnnormalizedSpectralClustering import *
-from l2RegularizedMatrixFactorization import *
-
-
 def printProgressBar(iteration, total, delimiter=None, prefix="", suffix="", decimals=1, length=100, fill="█", printEnd="\r"):
-    if iteration == total or delimiter is None or iteration % (total * delimiter // 100) == 0:
+    if iteration == total or delimiter is None or iteration % (delimiter * (total / 100)) == 0:
         percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
         filledLength = int(length * iteration // total)
         bar = fill * filledLength + "-" * (length - filledLength)
@@ -15,8 +11,8 @@ def printProgressBar(iteration, total, delimiter=None, prefix="", suffix="", dec
 
 def main():
     print("Loading Files...")
-    trainningData = numpy.genfromtxt("InputFiles/1.csv", delimiter=",", dtype=int)[1:, :-1]
-    testingData = numpy.genfromtxt("InputFiles/1_test.csv", delimiter=",", dtype="U10")
+    trainningData = numpy.genfromtxt("InputFiles/train.csv", delimiter=",", dtype=int)[1:, :-1]
+    testingData = numpy.genfromtxt("InputFiles/test.csv", delimiter=",", dtype="U10")
     A_orgInputHash = collections.defaultdict(lambda: {})
     userDict, itemDict = {}, {}
 

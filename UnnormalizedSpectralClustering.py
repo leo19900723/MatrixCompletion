@@ -5,7 +5,7 @@ import numpy
 from scipy.sparse import csgraph
 from scipy.cluster.vq import vq, kmeans, whiten
 from scipy.spatial import distance
-from Main import *
+from Tools import printProgressBar
 
 
 def euclideanDistanceWithoutZero(vector1, vector2, power=1):
