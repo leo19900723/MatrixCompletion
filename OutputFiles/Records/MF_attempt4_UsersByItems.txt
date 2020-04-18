@@ -1,0 +1,26 @@
+lambda_regularizationController = 0.02
+gamma_biasModificationController = 0.0000003
+
+================================
+
+Training...
+Epoch: 0 	Err: 1222768.0
+Epoch: 1 	Err: 1196533.0
+Epoch: 2 	Err: 1098049.0
+Epoch: 3 	Err: 918122.0
+Epoch: 4 	Err: 750628.0
+Epoch: 5 	Err: 629928.0
+Epoch: 6 	Err: 545262.0
+Epoch: 7 	Err: 477650.0
+Epoch: 8 	Err: 416965.0
+Epoch: 9 	Err: 370784.0
+Epoch: 10 	Err: 350523.0 *** RMSE:  0.5921253297770428
+Epoch: 11 	Err: 365612.0
+Epoch: 12 	Err: 432064.0
+Epoch: 13 	Err: 572362.0
+Epoch: 14 	Err: 830480.0
+Epoch: 15 	Err: 1220975.0
+Epoch: 16 	Err: 1560682.0
+Epoch: 17 	Err: 1732416.0
+Epoch: 18 	Err: 1813144.0
+Epoch: 19 	Err: 1846913.0

@@ -1,4 +1,4 @@
-movie_id,year_produced,title
+movie_id, year_produced, title
 1,2003,Dinosaur Planet
 2,2004,Isle of Man TT 2004 Review
 3,1997,Character
@@ -70,7 +70,7 @@ movie_id,year_produced,title
 69,2003,WWE: Armageddon 2003
 70,1999,Tai Chi: The 24 Forms
 71,1995,Maya Lin: A Strong Clear Vision
-72,1974,At Home Among Strangers A Stranger Among His Own
+72,1974,At Home Among Strangers, A Stranger Among His Own
 73,1954,Davy Crockett: 50th Anniversary Double Feature
 74,1999,6ixtynin9
 75,1997,Grind
@@ -262,7 +262,7 @@ movie_id,year_produced,title
 261,1948,The Big Clock
 262,1974,Herbie Rides Again
 263,2001,Dragon Ball: Tournament Saga
-264,2002,Angelina Ballerina: Lights Camera Action!
+264,2002,Angelina Ballerina: Lights, Camera, Action!
 265,2002,The Jeff Corwin Experience: Costa Rica and the Amazon
 266,2000,Saudade Do Futuro
 267,1994,Touched by an Angel: Season 1
@@ -348,7 +348,7 @@ movie_id,year_produced,title
 347,1989,Iceman Cometh
 348,1988,The Last Temptation of Christ
 349,1978,The Swarm
-350,1993,Dr. Quinn Medicine Woman: Season 3
+350,1993,Dr. Quinn, Medicine Woman: Season 3
 351,1969,Guns of the Magnificent Seven
 352,1997,Pick a Card
 353,2002,Life or Something Like It
@@ -364,7 +364,7 @@ movie_id,year_produced,title
 363,2002,Stark Raving Mad
 364,2004,Billy Blanks: Tae Bo: Contact 2
 365,1989,R.E.M.: Tourfilm
-366,2004,Still We Believe: The Boston Red Sox Movie
+366,2004,Still, We Believe: The Boston Red Sox Movie
 367,2003,Spun
 368,1986,The Best of Designing Women
 369,2000,Playing Mona Lisa
@@ -392,7 +392,7 @@ movie_id,year_produced,title
 391,1967,The Monkees: Season 2
 392,1993,Danielle Steel's Heartbeat
 393,1998,The Replacement Killers
-394,1916,20000 Leagues Under the Sea
+394,1916,20,000 Leagues Under the Sea
 395,1935,Captain Blood
 396,2001,Arjuna: Complete Collection
 397,1946,A Night in Casablanca
@@ -464,7 +464,7 @@ movie_id,year_produced,title
 463,1962,The Twilight Zone: Vol. 12
 464,1987,The Return of Ruben Blades
 465,1995,Coolie No.1
-466,1990,Doogie Howser M.D.: Season 2
+466,1990,Doogie Howser, M.D.: Season 2
 467,1941,Topper Returns
 468,2003,The Matrix: Revolutions
 469,1998,First Night of My Life: 2000 Seen By...
@@ -580,7 +580,7 @@ movie_id,year_produced,title
 579,1973,The Autobiography of Miss Jane Pittman
 580,1971,THX 1138: Special Edition
 581,1993,Black Jack: The Movie
-582,1986,Jo Jo Dancer Your Life is Calling
+582,1986,Jo Jo Dancer, Your Life is Calling
 583,1959,Third Man on the Mountain
 584,1998,The Curve
 585,1995,My Family
@@ -598,7 +598,7 @@ movie_id,year_produced,title
 597,1977,The Brady Bunch Variety Hour
 598,1973,Bobby Darin: Mack is Back
 599,1989,Sea of Love
-600,1966,What's Up Tiger Lily?
+600,1966,What's Up, Tiger Lily?
 601,1992,The Smiths: The Complete Picture
 602,2000,Tokyo Raiders
 603,1997,Burn Up Excess: Vol. 1: To Serve and Protect
@@ -668,9 +668,9 @@ movie_id,year_produced,title
 667,1965,Gilligan's Island: Season 2
 668,2004,Saturday Night Live: The Best of Will Ferrell 2
 669,1986,Real Kung Fu of Shaolin
-670,2002,He Loves Me He Loves Me Not
+670,2002,He Loves Me, He Loves Me Not
 671,1989,The Winter People
-672,1991,He Said She Said
+672,1991,He Said, She Said
 673,1999,Fight Club: Bonus Material
 674,1988,Hellbound: Hellraiser II
 675,2004,Rugrats All Grown Up: O' Brother!
@@ -727,7 +727,7 @@ movie_id,year_produced,title
 726,1990,The Haunting of Morella
 727,1959,Carlton-Browne of the F.O.
 728,1977,Abigail's Party
-729,2000,Fast Food Fast Women
+729,2000,Fast Food, Fast Women
 730,1988,Bagdad Cafe
 731,1997,Mr. Magoo
 732,2005,11:14
@@ -774,7 +774,7 @@ movie_id,year_produced,title
 773,2001,He Died with a Felafel in His Hand
 774,2003,Foyle's War: Set 2
 775,1999,Man Ray: Prophet of the Avant Garde
-776,1953,Dr. Seuss's The 5000 Fingers of Dr. T
+776,1953,Dr. Seuss's The 5,000 Fingers of Dr. T
 777,1944,Sherlock Holmes and the Spider Woman
 778,2003,A Touch of Frost: Seasons 7 & 8
 779,2000,Loving Jezebel
@@ -825,14 +825,14 @@ movie_id,year_produced,title
 824,1977,A Piece of the Action
 825,1983,Bill Cosby: Himself
 826,1998,Goosebumps: Cry of the Cat
-827,1994,C'est La Vie Mon Cheri
+827,1994,C'est La Vie, Mon Cheri
 828,1991,Atlantis
 829,1995,Serial Mom
 830,1994,Return to a Better Tomorrow
 831,1987,Mannequin
 832,2003,Tupac: Resurrection
 833,1996,White Squall
-834,1999,Niagara: Miracles Myths & Magic: IMAX
+834,1999,Niagara: Miracles, Myths & Magic: IMAX
 835,1994,Cirque du Soleil: A Baroque Odyssey
 836,1991,Incident at Oglala: The Leonard Peltier Story
 837,1972,All in the Family: Season 3
@@ -889,7 +889,7 @@ movie_id,year_produced,title
 888,2001,Discovering Australia
 889,2004,Reno 911: Season 2
 890,1999,Harsh Realm: The Complete Series
-891,2003,Zakk Wylde's Black Label Society: Boozed Broozed & Broken-Boned
+891,2003,Zakk Wylde's Black Label Society: Boozed, Broozed & Broken-Boned
 892,1965,The Bedford Incident
 893,2003,Blue's Clues: Classic Clues
 894,1999,The Muse
@@ -911,7 +911,7 @@ movie_id,year_produced,title
 910,1940,Santa Fe Trail
 911,1939,Buck Rogers
 912,2002,Angelina Ballerina: Friends Forever
-913,1979,Dead Kennedys: In God We Trust Inc.
+913,1979,Dead Kennedys: In God We Trust, Inc.
 914,1996,R.E.M.: Road Movie
 915,2001,Haven
 916,1994,Earth 2: The Complete Series
@@ -942,7 +942,7 @@ movie_id,year_produced,title
 941,1998,Screw Loose
 942,1994,The Pagemaster
 943,2004,Dave Chappelle: For What It's Worth
-944,1975,Brother Can You Spare a Dime?
+944,1975,Brother, Can You Spare a Dime?
 945,1952,The Duel at Silver Creek
 946,2002,Sex and the Teenage Mind
 947,1965,The Cincinnati Kid
@@ -971,7 +971,7 @@ movie_id,year_produced,title
 970,2004,Yesterday Once More
 971,2002,Unprecedented: The 2000 Presidential Election
 972,2003,Ben Harper: Live at the Hollywood Bowl
-973,1994,Dr. Martin Luther King Jr.: A Historical Perspective
+973,1994,Dr. Martin Luther King, Jr.: A Historical Perspective
 974,1941,The Devil and Daniel Webster
 975,1997,Convict 762
 976,2003,Tom and Jerry: Paws for a Holiday
@@ -1008,12 +1008,12 @@ movie_id,year_produced,title
 1007,1996,America's Dream
 1008,1996,Ken Burns' The West
 1009,1997,Judaai
-1010,2004,Sesame Street: Sing Hoot & Howl
+1010,2004,Sesame Street: Sing, Hoot & Howl
 1011,1983,All the Right Moves
 1012,1960,13 Ghosts
 1013,2005,My Scene Goes Hollywood: The Movie
 1014,1993,Pretty Boy
-1015,1996,Dr. Quinn Medicine Woman: Season 5
+1015,1996,Dr. Quinn, Medicine Woman: Season 5
 1016,1976,The Killer Inside Me
 1017,1955,I Love Lucy: Season 5
 1018,1960,Le Petit Soldat
@@ -1056,7 +1056,7 @@ movie_id,year_produced,title
 1055,1977,The Duellists
 1056,1962,The War Lover
 1057,1989,Doctor Who: Ghost Light
-1058,1972,Play it Again Sam
+1058,1972,Play it Again, Sam
 1059,2000,Extreme Bloopers: Sports Gone Wrong
 1060,2005,King's Ransom
 1061,2004,Spider-Man vs. Doc Ock
@@ -1093,7 +1093,7 @@ movie_id,year_produced,title
 1092,1996,Thin Line Between Love & Hate
 1093,1980,The Leg Fighters
 1094,2002,Nicholas Nickleby
-1095,2004,Vendetta: No Conscience No Mercy
+1095,2004,Vendetta: No Conscience, No Mercy
 1096,1989,Harlem Nights
 1097,2005,Winning Strategies: Texas Hold 'Em Poker with Mike Caro
 1098,1965,The Battle of Algiers
@@ -1168,7 +1168,7 @@ movie_id,year_produced,title
 1167,1999,La Buche
 1168,2004,Rodney Dangerfield: No Respect: The Ultimate Collection
 1169,1997,Bjork: Shepherds Bush Empire
-1170,1997,Truth or Consequences N.M.
+1170,1997,Truth or Consequences, N.M.
 1171,2001,RoboCop: Crash and Burn
 1172,1998,Krippendorf's Tribe
 1173,1999,Walking with Dinosaurs
@@ -1208,7 +1208,7 @@ movie_id,year_produced,title
 1207,1962,Experiment in Terror
 1208,1963,The Twilight Zone: Vol. 15
 1209,1976,Swashbuckler
-1210,1981,Zorro The Gay Blade
+1210,1981,Zorro, The Gay Blade
 1211,2004,Modigliani
 1212,1988,Red Dwarf: Series 2: Bonus Material
 1213,1999,VeggieTales: Madame Blueberry
@@ -1284,7 +1284,7 @@ movie_id,year_produced,title
 1283,2001,Inch' Allah Dimanche
 1284,2000,Foul King
 1285,2001,Phase IV
-1286,1997,Welcome Back Mr. McDonald
+1286,1997,Welcome Back, Mr. McDonald
 1287,1977,Breaker Breaker
 1288,2004,10 Minute Solution: Pilates
 1289,1990,Look Who's Talking Too
@@ -1518,7 +1518,7 @@ movie_id,year_produced,title
 1517,1999,Celebrities: Caught on Camera
 1518,1995,Casper
 1519,1981,Inseminoid
-1520,2003,Suze Orman: The Laws of Money Lessons of Life
+1520,2003,Suze Orman: The Laws of Money, Lessons of Life
 1521,1955,The Trouble With Harry
 1522,1968,Teorema
 1523,1981,Dynasty: Season 1
@@ -1557,7 +1557,7 @@ movie_id,year_produced,title
 1556,1932,A Farewell to Arms
 1557,2002,Dolls
 1558,1990,Rocky V
-1559,1998,AFI's 100 Years 100 Movies
+1559,1998,AFI's 100 Years, 100 Movies
 1560,2004,Disney Princess Stories: Vol. 1: A Gift From the Heart
 1561,2003,American Wedding
 1562,2005,Chupacabra Terror
@@ -1627,7 +1627,7 @@ movie_id,year_produced,title
 1626,1998,Suze Orman: 9 Steps to Financial Freedom
 1627,1940,The Shop Around the Corner
 1628,1982,The Barchester Chronicles
-1629,1997,Sesame Street: 1-2-3 Count with Me
+1629,1997,Sesame Street: 1-2-3, Count with Me
 1630,1976,The New Avengers: Season 1
 1631,1970,On a Clear Day You Can See Forever
 1632,2004,Mean Creek
@@ -1645,18 +1645,18 @@ movie_id,year_produced,title
 1644,2003,Tom Dowd and the Language of Music
 1645,2003,The In-Laws
 1646,1983,The Dead Zone
-1647,2002,Eric Clapton: One More Car One More Rider
+1647,2002,Eric Clapton: One More Car, One More Rider
 1648,1990,The Death of the Incredible Hulk
 1649,1978,Shalimar
 1650,1980,Nine to Five
 1651,1977,The People That Time Forgot
 1652,1961,The Twilight Zone: Vol. 37
 1653,2005,Spike & Mike's Sick & Twisted Festival of Animation: Caught in the Act
-1654,1996,I Love You I Love You Not
+1654,1996,I Love You, I Love You Not
 1655,1988,Talk Radio
 1656,1998,Two Girls and a Guy
 1657,1995,Forbidden Games
-1658,1986,Yes Prime Minister: The Complete Collection
+1658,1986,Yes, Prime Minister: The Complete Collection
 1659,1993,Grumpy Old Men
 1660,2000,SpongeBob SquarePants: Season 2
 1661,1976,The Bad News Bears
@@ -1672,7 +1672,7 @@ movie_id,year_produced,title
 1671,2000,El Grito
 1672,2002,Mujhse Dosti Karoge
 1673,1991,Defending Your Life
-1674,2003,Kiss Me Kate
+1674,2003,Kiss Me, Kate
 1675,1996,Oasis: There and Then
 1676,2000,MTV Cribs: Hip-Hop
 1677,1963,The Sadist
@@ -6481,7 +6481,8 @@ movie_id,year_produced,title
 6480,2001,Ten Tiny Love Stories
 6481,2000,Beat
 6482,1984,Gremlins
-6483,2001,Smokey Joe's Caf?6484,1994,Poirot: Hercule Poirot's Christmas
+6483,2001,Smokey Joe's Café
+6484,1994,Poirot: Hercule Poirot's Christmas
 6485,2001,Crossfire Trail
 6486,1994,The Madness of King George
 6487,2004,Spiral

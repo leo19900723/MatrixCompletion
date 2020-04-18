@@ -1,0 +1,22 @@
+epoch = 20
+lambda_regularizationController = 0.02
+gamma_biasModificationController = 0.0000004
+
+================================
+
+Epoch: 0 	Err: 1222768.0
+Epoch: 1 	Err: 1176153.0
+Epoch: 2 	Err: 983697.0
+Epoch: 3 	Err: 746316.0
+Epoch: 4 	Err: 591557.0
+Epoch: 5 	Err: 492253.0
+Epoch: 6 	Err: 409187.0
+Epoch: 7 	Err: 356630.0
+Epoch: 8 	Err: 360896.0
+Epoch: 9 	Err: 449265.0
+Epoch: 10 	Err: 668222.0
+Epoch: 11 	Err: 1095458.0
+Epoch: 12 	Err: 1551333.0
+Epoch: 13 	Err: 1759052.0
+Epoch: 14 	Err: 1835923.0
+Epoch: 15 	Err: 1858377.0
