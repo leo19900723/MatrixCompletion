@@ -17,6 +17,7 @@ def matrixFactorization(A_orgInputMatrix):
     epoch = 11
     lambda_regularizationController = 0.02
     gamma_biasModificationController = 0.0000003
+    K = int(len(A_orgInputMatrix) * 0.5)
 
     print("Matrix Factorization...")
     AShape = A_orgInputMatrix.shape
@@ -30,8 +31,7 @@ def matrixFactorization(A_orgInputMatrix):
 
     print("Calculating the SVD of A_orgInputMatrix...")
     U_userToConcept, S_singularValueArray, VT_itemToConcept = numpy.linalg.svd((A_maskedOrgInputMatrix - mu_avgOfInputMatrix).filled(0), full_matrices=False)
-    S_singularValueArray = numpy.diag(S_singularValueArray)
-    bu, bi, K = 0, 0, int(numpy.count_nonzero(S_singularValueArray))
+    print("The Singular Values are:", S_singularValueArray)
 
     print("Training...")
     for round in range(epoch):
@@ -44,7 +44,7 @@ def matrixFactorization(A_orgInputMatrix):
         print("Epoch:", round, "\tErr:", err)
 
     R_returnInputMatrix = numpy.clip(numpy.round(R_returnInputMatrix[:AShape[0], :AShape[1]]), 1, 5)
-    print("----\nRMSE: ", numpy.sqrt(numpy.nanmean((A_orgInputMatrix[:AShape[0], :AShape[1]] - R_returnInputMatrix)**2)))
+    print("RMSE:", numpy.sqrt(numpy.nanmean((A_orgInputMatrix[:AShape[0], :AShape[1]] - R_returnInputMatrix)**2)))
 
     return R_returnInputMatrix, int(mu_avgOfInputMatrix.round())
 

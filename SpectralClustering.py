@@ -19,6 +19,7 @@ def printProgressBar(iteration, total, delimiter=None, prefix="", suffix="", dec
 
 def spectralClustering(A_orgInputMatrix, K):
     sigma_parameter = 1
+    gamma_affinityThreshole = 0
     print("Start to proceed Spectral Clustering...")
     AShape = A_orgInputMatrix.shape
 
@@ -34,7 +35,8 @@ def spectralClustering(A_orgInputMatrix, K):
     for user_i in range(AShape[0]):
         printProgressBar(user_i + 1, AShape[0], prefix="\tProgress:", suffix="Complete", length=50)
         for user_j in range(user_i + 1, AShape[0]):
-            W_affinityMatrix[user_i, user_j] = math.exp(-1 * distance.euclidean(R_learningInput[user_i, :], R_learningInput[user_j, :]) ** 2 / (sigma_parameter ** 2))
+            dist = math.exp(-1 * distance.euclidean(R_learningInput[user_i, :], R_learningInput[user_j, :]) ** 2 / (sigma_parameter ** 2)) > gamma_affinityThreshole
+            W_affinityMatrix[user_i, user_j] = dist if dist else 0
             W_affinityMatrix[user_j, user_i] = W_affinityMatrix[user_i, user_j]
 
     print("Calculating L_laplacianMatrix...")
